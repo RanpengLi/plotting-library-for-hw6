@@ -6,11 +6,25 @@ import matplotlib.pyplot as plt
 # read in data
 all_spreadsheet_values = pd.read_csv("data/geotherm_data.csv", delimiter=',', header = 1)
 
+def get_depth_and_T (data, depth_col = 1, T_col = 2):
+    """ get the temperature colomn and depth colomn from a depth_average.txt outputfile.
+     The 3 inputs are data (colomn number (in normal way), the ouput are two seperate data array """
+
+    data = np.array(data, dtype=float)
+
+    depth = data[:,(depth_col-1)]  # in m
+    temperature = data[:,(T_col-1)]
+
+    return depth, temperature
+
+
 all_data = np.array(all_spreadsheet_values)
 temperature_data = np.array(all_data[2:,:], dtype=float)
 title = np.array(all_data[:2,:])
-depth = temperature_data[:,0] / 1000 # in km
-temperature = temperature_data[:,1]
+# depth = temperature_data[:,0] / 1000 # in km
+# temperature = temperature_data[:,1]
+
+depth, temperature = get_depth_and_T (temperature_data, 1, 2)
 
 print (temperature.dtype, temperature)
 
