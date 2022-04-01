@@ -5,7 +5,26 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # read in data
-all_spreadsheet_values = pd.read_csv("data/geotherm_data.csv", delimiter=',', header = 1)
+
+def read_data_and_transform_to_json (filename, headerline = 2, if_to_json = True):
+    """ read in the data file, generate a data array and a title array
+    3 inputs are:
+    filename
+    optional: headerline = 2 (counts in normal way)
+    optional: if_to_json = True
+    It returns, a data array and a title array """
+
+    all_spreadsheet_values = pd.read_csv(filename, delimiter=',', header = (headerline-1))
+    all_data = np.array(all_spreadsheet_values)
+    output_data = np.array(all_data[headerline:,:], dtype=float)
+    title = np.array(all_data[:headerline,:])
+
+    if if_to_json:
+        all_spreadsheet_values.to_json("results/data_output.json")
+
+    return  output_data, title
+
+
 
 def get_depth_and_T (data, depth_col = 1, T_col = 2):
     """ get the temperature colomn and depth colomn from a depth_average.txt outputfile.
@@ -23,13 +42,11 @@ def get_depth_and_T (data, depth_col = 1, T_col = 2):
     return depth, temperature
 
 
-all_data = np.array(all_spreadsheet_values)
-temperature_data = np.array(all_data[2:,:], dtype=float)
-title = np.array(all_data[:2,:])
+
 # depth = temperature_data[:,0] / 1000 # in km
 # temperature = temperature_data[:,1]
 
-pyr_depth, pyr_temperature = get_depth_and_T (temperature_data)
+
 
 # print (temperature.dtype, temperature)
 
@@ -68,9 +85,12 @@ def plot_and_save_geotherm(depth, temperature, title, m_to_km = True, ifsave = F
         figure.savefig(figure_name)
 
 
+filename = "data/geotherm_data.csv"
+temperature_data, colomn_title = read_data_and_transform_to_json (filename, if_to_json = True)
+pyr_depth, pyr_temperature = get_depth_and_T (temperature_data)
 plot_title = "Geothermal gradient of a pyrolitic mantle"
 plot_and_save_geotherm(pyr_depth, pyr_temperature, plot_title, ifsave = True )
 
 
 # convert to json format and save as a seperate file
-all_spreadsheet_values.to_json("results/data_output_RL.json")
+
