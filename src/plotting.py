@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# read in data
+
 
 def read_data_and_transform_to_json (filename, headerline = 2, if_to_json = True):
     """ read in the data file, generate a data array and a title array
@@ -25,7 +25,6 @@ def read_data_and_transform_to_json (filename, headerline = 2, if_to_json = True
     return  output_data, title
 
 
-
 def get_depth_and_T (data, depth_col = 1, T_col = 2):
     """ get the temperature colomn and depth colomn from a depth_average.txt outputfile.
      The 3 inputs are:
@@ -42,24 +41,16 @@ def get_depth_and_T (data, depth_col = 1, T_col = 2):
     return depth, temperature
 
 
-
-# depth = temperature_data[:,0] / 1000 # in km
-# temperature = temperature_data[:,1]
-
-
-
-# print (temperature.dtype, temperature)
-
-# plotting the geotherm
-
-def plot_and_save_geotherm(depth, temperature, title, m_to_km = True, ifsave = False):
+def plot_and_save_geotherm(depth, temperature, title = "Geotherm Gradient", m_to_km = True, ifsave = False, figure_name= "Geotherm Gradient"):
     """ Plot geotherm (depth vs temperature)
     5 input are 
     depth, 
     temperature, 
-    title (will also be the name of figure)
+    optional: title = "Geotherm Gradient" (will also be the name of figure),
     optional: m_to_km = True
-    optional: ifsave = False """
+    optional: ifsave = False 
+    figure_name = "Geotherm Gradient.png" 
+    """
 
     if m_to_km:
         depth = depth/1000
@@ -72,25 +63,33 @@ def plot_and_save_geotherm(depth, temperature, title, m_to_km = True, ifsave = F
     plt.xlabel("Temperature (K)")
     plt.show()
    
-   
-    current_file_location = os.path.dirname(__file__)
-
-
-    figure_name =  os.path.join(current_file_location,
-                                        "..",
-                                        "results",
-                                        title)
 
     if ifsave:
         figure.savefig(figure_name)
 
 
-filename = "data/geotherm_data.csv"
+
+
+current_file_location = os.path.dirname(__file__)
+
+data_file = "geotherm_data.csv"
+
+filename =  os.path.join(current_file_location,
+                                        "..",
+                                        "data",
+                                        data_file)                       
+
 temperature_data, colomn_title = read_data_and_transform_to_json (filename, if_to_json = True)
 pyr_depth, pyr_temperature = get_depth_and_T (temperature_data)
+
 plot_title = "Geothermal gradient of a pyrolitic mantle"
-plot_and_save_geotherm(pyr_depth, pyr_temperature, plot_title, ifsave = True )
+path_to_figure =  os.path.join(current_file_location,
+                                        "..",
+                                        "results",
+                                        plot_title)
+
+plot_and_save_geotherm(pyr_depth, pyr_temperature, plot_title, ifsave = True, figure_name = path_to_figure )
 
 
-# convert to json format and save as a seperate file
+
 
