@@ -68,28 +68,29 @@ def plot_and_save_geotherm(depth, temperature, title = "Geotherm Gradient", m_to
         figure.savefig(figure_name)
 
 
+def plot():
+
+    current_file_location = os.path.dirname(__file__)
+
+    data_file = "geotherm_data.csv"
+
+    filename =  os.path.join(current_file_location,
+                                            "..",
+                                            "data",
+                                            data_file)                       
+
+    temperature_data, colomn_title = read_data_and_transform_to_json (filename, if_to_json = True)
+    pyr_depth, pyr_temperature = get_depth_and_T (temperature_data)
+
+    plot_title = "Geothermal gradient of a pyrolitic mantle"
+    path_to_figure =  os.path.join(current_file_location,
+                                            "..",
+                                            "results",
+                                            plot_title)
+
+    plot_and_save_geotherm(pyr_depth, pyr_temperature, plot_title, ifsave = True, figure_name = path_to_figure )
 
 
-current_file_location = os.path.dirname(__file__)
-
-data_file = "geotherm_data.csv"
-
-filename =  os.path.join(current_file_location,
-                                        "..",
-                                        "data",
-                                        data_file)                       
-
-temperature_data, colomn_title = read_data_and_transform_to_json (filename, if_to_json = True)
-pyr_depth, pyr_temperature = get_depth_and_T (temperature_data)
-
-plot_title = "Geothermal gradient of a pyrolitic mantle"
-path_to_figure =  os.path.join(current_file_location,
-                                        "..",
-                                        "results",
-                                        plot_title)
-
-plot_and_save_geotherm(pyr_depth, pyr_temperature, plot_title, ifsave = True, figure_name = path_to_figure )
-
-
-
+if __name__ == "__main__":
+    plot()
 
