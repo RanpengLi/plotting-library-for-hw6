@@ -29,7 +29,7 @@ def test_read_data():
 
     test_data, test_colomn_title = plotting.read_data_and_transform_to_json(input_data_filename)
 
-    assert test_data.shape == (56,2), \
+    assert test_data.shape == (55,2), \
         'unexpected size of array, array size:' + str(test_data.shape)
 
 def test_get_depth_and_T():
@@ -37,7 +37,7 @@ def test_get_depth_and_T():
 
     test_input_data = np.array([[1,2,3],[1,2,3],[1,2,3]])
     test_depth, test_T = plotting.get_depth_and_T(test_input_data, depth_col = 1, T_col = 3)
-    expect_output = np.array([2,2,2])
+    expect_output = np.array([3,3,3])
 
     assert np.all(test_T == expect_output), \
         "Wrong output colomn"
@@ -60,6 +60,6 @@ def test_plot_and_save_geotherm():
 
 
     plotting.plot_and_save_geotherm(np.array([1,2,3]), np.array([1,2,3]), test_title, 
-                                    ifsave = False, figure_name = plot_filename)
+                                    ifsave = True, figure_name = plot_filename)
 
     assert os.path.exists(plot_filename)
