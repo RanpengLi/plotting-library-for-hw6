@@ -1,12 +1,13 @@
 #!/bin/python
 
 """ test the plotting script"""
+
 import sys
 import os
 
 import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+#import matplotlib.pyplot as plt
+#import pandas as pd
 
 sys.path.append(os.path.join(
     os.path.dirname(__file__), ".."))
@@ -20,8 +21,8 @@ def test_plot():
 def test_read_data():
     """ test read_data_and_transform_to_json() to make sure the output has correct size"""
     current_file_location = os.path.dirname(__file__)
-    data_directory = os.path.join(current_file_location, 
-                                    "..", 
+    data_directory = os.path.join(current_file_location,
+                                    "..",
                                     "data")
 
     input_data_filename = os.path.join(data_directory,
@@ -59,7 +60,7 @@ def test_plot_and_save_geotherm():
         os.remove(plot_filename)
 
 
-    plotting.plot_and_save_geotherm(np.array([1,2,3]), np.array([1,2,3]), test_title, 
+    plotting.plot_and_save_geotherm(np.array([1,2,3]), np.array([1,2,3]), test_title,
                                     ifsave = True, figure_name = plot_filename)
 
     assert os.path.exists(plot_filename)

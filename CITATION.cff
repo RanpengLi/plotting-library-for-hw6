@@ -1,0 +1,10 @@
+cff-version: 1.0.3
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Li
+    given-names: Ranpeng
+    orcid: https://orcid.org/0000-0003-1612-6209
+title: Simple Geotherm Plot
+version: 0.1.0
+doi: 
+date-released: 2022-04-15
