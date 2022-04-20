@@ -61,6 +61,6 @@ def test_plot_and_save_geotherm():
 
 
     plotting.plot_and_save_geotherm(np.array([1,2,3]), np.array([1,2,3]), test_title,
-                                    ifsave = True, figure_name = plot_filename)
+                                    save_figure = True, figure_name = plot_filename)
 
     assert os.path.exists(plot_filename)
