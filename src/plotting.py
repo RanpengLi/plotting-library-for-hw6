@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 
-def read_data_and_transform_to_json (filename, headerline = 2, if_to_json = True):
+def read_data_and_transform_to_json (filename, headerline = 2, write_as_json = True, json_name = "geotherm_data.json"):
     """ read in the data file, generate a data array and a title array
     3 inputs are:
     filename
@@ -22,8 +22,8 @@ def read_data_and_transform_to_json (filename, headerline = 2, if_to_json = True
     output_data = np.array(all_data[headerline:,:], dtype=float)
     title = np.array(all_data[:headerline,:])
 
-    if if_to_json:
-        all_spreadsheet_values.to_json("results/data_output.json")
+    if write_as_json:
+        all_spreadsheet_values.to_json(json_name)
 
     return  output_data, title
 
@@ -48,7 +48,7 @@ def plot_and_save_geotherm (depth,
                             temperature,
                             title = "Geotherm Gradient",
                             m_to_km = True,
-                            ifsave = False,
+                            save_figure = False,
                             figure_name= "Geotherm Gradient"):
     """ Plot geotherm (depth vs temperature)
     5 input are
@@ -72,7 +72,7 @@ def plot_and_save_geotherm (depth,
     plt.show()
 
 
-    if ifsave:
+    if save_figure:
         figure.savefig(figure_name)
 
 
@@ -88,7 +88,12 @@ def plot():
                                             "data",
                                             data_file)
 
-    temperature_data, colomn_title = read_data_and_transform_to_json (filename, if_to_json = True)
+    path_to_json =  os.path.join(current_file_location,
+                                        "..",
+                                        "results",
+                                        "data_output.json")
+
+    temperature_data, colomn_title = read_data_and_transform_to_json (filename, write_as_json = True, json_name = path_to_json)
     pyr_depth, pyr_temperature = get_depth_and_T (temperature_data)
 
     plot_title = "Geothermal gradient of a pyrolitic mantle"
@@ -100,7 +105,7 @@ def plot():
     plot_and_save_geotherm( pyr_depth,
                             pyr_temperature,
                             plot_title,
-                            ifsave = True,
+                            save_figure = True,
                             figure_name = path_to_figure )
 
 
